@@ -8,7 +8,7 @@ if(defined $ARGV[0] &&defined $ARGV[1]){
 	my $sour = $ARGV[0];
 	my $dest = $ARGV[1];
 	my $start_time = time;
-	mycopy($sour,$dest);
+	sync($sour,$dest);
 	my $duration = time()-$start_time;
 	print STDOUT "The SYNC Execution time: $duration s\n";
 }else
@@ -27,7 +27,13 @@ sub getModifyTime
 	my @attributes = stat($file);
 	return $attributes[9];
 }
-sub mycopy{
+sub mycopy
+{
+	my($source,$destination) = @_;
+	print STDOUT "updating File :$source\n";
+	copy($source,$destination);
+}
+sub sync{
 
 	my($source,$destination) = @_;
 	my $disk_handle;
@@ -48,15 +54,15 @@ sub mycopy{
 					my $destination_file_modify_time = &getModifyTime("$destination/$source_file");
 					if($source_file_modify_time > $destination_file_modify_time)
 					{
-						copy("$source/$source_file","$destination/$source_file");
+						mycopy("$source/$source_file","$destination/$source_file");
 					}
 				}else{
-					copy("$source/$source_file","$destination/$source_file");
+					mycopy("$source/$source_file","$destination/$source_file");
 				}	
 			}
 			if(-d "$source/$source_file"){
 				##
-				mycopy("$source/$source_file","$destination/$source_file");
+				sync("$source/$source_file","$destination/$source_file");
 			}
 		}	
 	}
