@@ -33,8 +33,6 @@ foreach my $copy (@diff) {
         if(-d $copy){
 				print "!!!!";
 				system("xcopy",$copy,"E:\\public\\2\\$copy\\","/S");
-
-
         }
 
 }
