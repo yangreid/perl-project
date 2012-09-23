@@ -14,3 +14,10 @@ sub wanted {
     }
 
 }
+find (\&wanted,$path);
+sub getModifyTime
+{
+	my $file = shift ;
+	my @attributes = stat($file);
+	return $attributes[9];
+}
