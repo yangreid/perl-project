@@ -9,4 +9,4 @@ if ($child_pid = fork()) {
 	print "I'm child, pid=$$.\n";
 	sleep 10;
 	exec("date");	
-}
+}###
